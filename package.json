@@ -1,20 +1,23 @@
 {
-  "name": "api-project-test",
-  "scripts": {
-    "test": "jest"
-  },
-  "engines": {
-    "node": ">=16"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Simulaemanuele/api-project-test.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Simulaemanuele/api-project-test/issues"
-  },
-  "homepage": "https://github.com/Simulaemanuele/api-project-test#readme",
-  "devDependencies": {
-    "jest": "^29.0.2"
-  }
+    "name": "api-project-test",
+    "scripts": {
+        "format": "prettier --write .",
+        "test": "jest"
+    },
+    "engines": {
+        "node": ">=16"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Simulaemanuele/api-project-test.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Simulaemanuele/api-project-test/issues"
+    },
+    "homepage": "https://github.com/Simulaemanuele/api-project-test#readme",
+    "devDependencies": {
+        "jest": "^29.0.2",
+        "prettier": "2.7.1"
+    }
 }
+
