@@ -1,7 +1,7 @@
 {
   "name": "api-project-test",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "engines": {
     "node": ">=16"
@@ -13,5 +13,8 @@
   "bugs": {
     "url": "https://github.com/Simulaemanuele/api-project-test/issues"
   },
-  "homepage": "https://github.com/Simulaemanuele/api-project-test#readme"
+  "homepage": "https://github.com/Simulaemanuele/api-project-test#readme",
+  "devDependencies": {
+    "jest": "^29.0.2"
+  }
 }
