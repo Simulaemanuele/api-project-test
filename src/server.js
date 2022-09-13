@@ -8,5 +8,7 @@ app.get("/", function (request, response) {
 });
 var port = 3000;
 app.listen(port, function () {
-    console.log("[server]: Server is running at https://localhost:".concat(port));
+    console.log(
+        "[server]: Server is running at https://localhost:".concat(port)
+    );
 });
