@@ -1,6 +1,7 @@
 import express from "express";
 import "express-async-errors";
 import prisma from './lib/prisma/client'
+import { validate, planetSchema, validationErrorMiddleware, PlanetData } from "./lib/validation";
 
 const app = express();
 
@@ -13,11 +14,13 @@ app.get("/planets", async (request, response) => {
     response.json(planets)
 });
 
-app.post("/planets", async (request, response) => {
+app.post("/planets", validate({ body: planetSchema }), async (request, response) => {
     // response.json([{ name: "Mercury" }, { name: "Venus" }]);
-    const planet = request.body;
+    const planet: PlanetData = request.body;
 
     response.status(201).json(planet)
 });
+
+app.use(validationErrorMiddleware);
 
 export default app;
