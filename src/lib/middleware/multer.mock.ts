@@ -9,8 +9,8 @@ jest.mock("./multer", () => {
         initMulterMiddleware: () => {
             return multer({
                 storage: multer.memoryStorage(),
-                ...originalModule.multerOptions
-            })
-        }
-    }
-})
+                ...originalModule.multerOptions,
+            });
+        },
+    };
+});

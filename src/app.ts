@@ -1,15 +1,20 @@
 import express from "express";
 import "express-async-errors";
-import cors from 'cors';
-import prisma from './lib/prisma/client'
-import { validate, planetSchema, validationErrorMiddleware, PlanetData } from "./lib/validation";
+import cors from "cors";
+import prisma from "./lib/prisma/client";
+import {
+    validate,
+    planetSchema,
+    validationErrorMiddleware,
+    PlanetData,
+} from "./lib/validation";
 import { initMulterMiddleware } from "./lib/middleware/multer";
 
 const upload = initMulterMiddleware();
 
 const corsOptions = {
-    origin: "http://localhost:8080"
-}
+    origin: "http://localhost:8080",
+};
 
 const app = express();
 
@@ -21,52 +26,59 @@ app.get("/planets", async (request, response) => {
     // response.json([{ name: "Mercury" }, { name: "Venus" }]);
     const planets = await prisma.planet.findMany();
 
-    response.json(planets)
+    response.json(planets);
 });
 
 app.get("/planets/:id(\\d+)", async (request, response, next) => {
-
     const planetId = Number(request.params.id);
 
     const planet = await prisma.planet.findUnique({
-        where: { id: planetId }
+        where: { id: planetId },
     });
 
     if (!planet) {
         response.status(404);
         return next(`Cannot GET /planets/${planetId}`);
     }
-    response.json(planet)
+    response.json(planet);
 });
 
-app.post("/planets", validate({ body: planetSchema }), async (request, response) => {
-    // response.json([{ name: "Mercury" }, { name: "Venus" }]);
-    const planetData: PlanetData = request.body;
+app.post(
+    "/planets",
+    validate({ body: planetSchema }),
+    async (request, response) => {
+        // response.json([{ name: "Mercury" }, { name: "Venus" }]);
+        const planetData: PlanetData = request.body;
 
-    const planet = await prisma.planet.create({
-        data: planetData
-    })
+        const planet = await prisma.planet.create({
+            data: planetData,
+        });
 
-    response.status(201).json(planet)
-});
-
-app.put("/planets/:id(\\d+)", validate({ body: planetSchema }), async (request, response, next) => {
-    // response.json([{ name: "Mercury" }, { name: "Venus" }]);
-    const planetData: PlanetData = request.body;
-    const planetId = Number(request.params.id);
-
-    try {
-        const planet = await prisma.planet.update({
-            where: { id: planetId },
-            data: planetData
-        })
-
-        response.status(200).json(planet)
-    } catch (error) {
-        response.status(404);
-        next(`Cannot PUT /planets/${planetId}`)
+        response.status(201).json(planet);
     }
-});
+);
+
+app.put(
+    "/planets/:id(\\d+)",
+    validate({ body: planetSchema }),
+    async (request, response, next) => {
+        // response.json([{ name: "Mercury" }, { name: "Venus" }]);
+        const planetData: PlanetData = request.body;
+        const planetId = Number(request.params.id);
+
+        try {
+            const planet = await prisma.planet.update({
+                where: { id: planetId },
+                data: planetData,
+            });
+
+            response.status(200).json(planet);
+        } catch (error) {
+            response.status(404);
+            next(`Cannot PUT /planets/${planetId}`);
+        }
+    }
+);
 
 app.delete("/planets/:id(\\d+)", async (request, response, next) => {
     const planetId = Number(request.params.id);
@@ -74,16 +86,17 @@ app.delete("/planets/:id(\\d+)", async (request, response, next) => {
     try {
         await prisma.planet.delete({
             where: { id: planetId },
-        })
+        });
 
-        response.status(204).end()
+        response.status(204).end();
     } catch (error) {
         response.status(404);
-        next(`Cannot DELETE /planets/${planetId}`)
+        next(`Cannot DELETE /planets/${planetId}`);
     }
 });
 
-app.post("/planets/:id(\\d+)/photo",
+app.post(
+    "/planets/:id(\\d+)/photo",
     upload.single("photo"),
     async (request, response, next) => {
         console.log("request.file", request.file);
@@ -91,14 +104,14 @@ app.post("/planets/:id(\\d+)/photo",
         if (!request.file) {
             response.status(400);
 
-            return next("No photo file uploaded.")
+            return next("No photo file uploaded.");
         }
 
         const photoFilename = request.file.filename;
 
         response.status(201).json({ photoFilename });
-
-    })
+    }
+);
 
 app.use(validationErrorMiddleware);
 

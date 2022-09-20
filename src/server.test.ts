@@ -29,7 +29,7 @@ describe("GET /planets", () => {
         ];
 
         //@ts-ignore
-        prismaMock.planet.findMany.mockResolvedValue(planets)
+        prismaMock.planet.findMany.mockResolvedValue(planets);
 
         const response = await request
             .get("/planets")
@@ -43,8 +43,7 @@ describe("GET /planets", () => {
 
 describe("GET /planets/:id", () => {
     test("Valid request", async () => {
-        const planet =
-        {
+        const planet = {
             id: 1,
             name: "Mercury",
             description: "null",
@@ -54,10 +53,8 @@ describe("GET /planets/:id", () => {
             updatedAt: "2022-09-13T11:09:48.636Z",
         };
 
-
-
         //@ts-ignore
-        prismaMock.planet.findUnique.mockResolvedValue(planet)
+        prismaMock.planet.findUnique.mockResolvedValue(planet);
 
         const response = await request
             .get("/planets/1")
@@ -81,7 +78,6 @@ describe("GET /planets/:id", () => {
     });
 
     test("Invalid planet ID", async () => {
-
         const response = await request
             .get("/planets/asdf")
             .expect(404)
@@ -89,14 +85,10 @@ describe("GET /planets/:id", () => {
 
         expect(response.text).toContain("Cannot GET /planets/asdf");
     });
-})
-
-
-
+});
 
 describe("POST /planets", () => {
     test("Valid request", async () => {
-
         const planet = {
             id: 3,
             name: "Mercury",
@@ -104,11 +96,11 @@ describe("POST /planets", () => {
             diameter: 1234,
             moons: 12,
             createdAt: "2022-09-16T08:40:10.894Z",
-            updatedAt: "2022-09-16T08:40:10.904Z"
-        }
+            updatedAt: "2022-09-16T08:40:10.904Z",
+        };
 
         //@ts-ignore
-        prismaMock.planet.create.mockResolvedValue(planet)
+        prismaMock.planet.create.mockResolvedValue(planet);
 
         const response = await request
             .post("/planets")
@@ -138,15 +130,14 @@ describe("POST /planets", () => {
 
         expect(response.body).toEqual({
             errors: {
-                body: expect.any(Array)
-            }
+                body: expect.any(Array),
+            },
         });
     });
 });
 
 describe("PUT /planets/:id", () => {
     test("Valid request", async () => {
-
         const planet = {
             id: 3,
             name: "Mercury",
@@ -154,11 +145,11 @@ describe("PUT /planets/:id", () => {
             diameter: 1234,
             moons: 12,
             createdAt: "2022-09-16T08:40:10.894Z",
-            updatedAt: "2022-09-16T08:40:10.904Z"
-        }
+            updatedAt: "2022-09-16T08:40:10.904Z",
+        };
 
         //@ts-ignore
-        prismaMock.planet.update.mockResolvedValue(planet)
+        prismaMock.planet.update.mockResolvedValue(planet);
 
         const response = await request
             .put("/planets/3")
@@ -189,8 +180,8 @@ describe("PUT /planets/:id", () => {
 
         expect(response.body).toEqual({
             errors: {
-                body: expect.any(Array)
-            }
+                body: expect.any(Array),
+            },
         });
     });
 
@@ -213,7 +204,6 @@ describe("PUT /planets/:id", () => {
     });
 
     test("Invalid planet ID", async () => {
-
         const response = await request
             .put("/planets/asdf")
             .send({
@@ -231,13 +221,10 @@ describe("PUT /planets/:id", () => {
 
 describe("DELETE /planets/:id", () => {
     test("Valid request", async () => {
-
-
         const response = await request
             .delete("/planets/1")
             .expect(204)
             .expect("Access-Control-Allow-Origin", "http://localhost:8080");
-
 
         expect(response.text).toEqual("");
     });
@@ -255,7 +242,6 @@ describe("DELETE /planets/:id", () => {
     });
 
     test("Invalid planet ID", async () => {
-
         const response = await request
             .delete("/planets/asdf")
             .expect(404)
@@ -285,7 +271,6 @@ describe("POST /planets/:id/photo", () => {
             .expect("Content-Type", /text\/html/);
 
         expect(response.text).toContain("Cannot POST /planets/asdf/photo");
-
     });
 
     test("Invalid request with no file uploads", async () => {
@@ -295,5 +280,5 @@ describe("POST /planets/:id/photo", () => {
             .expect("Content-Type", /text\/html/);
 
         expect(response.text).toContain("No photo file uploaded.");
-    })
-})
+    });
+});
